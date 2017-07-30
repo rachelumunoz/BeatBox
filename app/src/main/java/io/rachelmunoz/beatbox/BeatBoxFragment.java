@@ -19,9 +19,19 @@ import io.rachelmunoz.beatbox.databinding.ListItemSoundBinding;
  * Created by rachelmunoz on 7/29/17.
  */
 
-public class BeatBoxFragment extends Fragment {
+public class BeatBoxFragment extends android.support.v4.app.Fragment {
+
+	private BeatBox mBeatBox;
+
 	public static BeatBoxFragment newInstance() {
 		return new BeatBoxFragment();
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		mBeatBox = new BeatBox(getActivity());
 	}
 
 	@Nullable

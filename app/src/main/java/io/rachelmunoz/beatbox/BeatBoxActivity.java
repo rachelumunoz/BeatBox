@@ -1,9 +1,12 @@
 package io.rachelmunoz.beatbox;
 
+
+import android.support.v4.app.Fragment;
+
 public class BeatBoxActivity extends SingleFragmentActivity {
 
 	@Override
-	protected BeatBoxFragment createFragment() {
+	protected Fragment createFragment() {
 		return BeatBoxFragment.newInstance();
 	}
 }
