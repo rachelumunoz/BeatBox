@@ -9,6 +9,16 @@ public class Sound { // turns assets, wav files into objects that we can populat
 	private String mAssetPath;
 	private String mName;
 
+	public Integer getSoundId() {
+		return mSoundId;
+	}
+
+	public void setSoundId(Integer soundId) {
+		mSoundId = soundId;
+	}
+
+	private Integer mSoundId;
+
 	public Sound(String assetPath) {
 		mAssetPath = assetPath;
 		String[] components = assetPath.split("/");

@@ -1,7 +1,10 @@
 package io.rachelmunoz.beatbox;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 
 import java.io.IOException;
@@ -14,13 +17,17 @@ import java.util.List;
 
 public class BeatBox { // manages assets, instantiated in onCreate of BeatBoxFragment
 	private static final String TAG = "BeatBox";
+
 	private static final String SOUNDS_FOLDER = "sample_sounds";
+	private static final int MAX_SOUNDS = 5;
 
 	private AssetManager mAssets;
 	private List<Sound> mSounds  = new ArrayList<>();
+	private SoundPool mSoundPool;
 
 	public BeatBox(Context context){
 		mAssets = context.getAssets();
+		mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC, 0);
 		loadSounds();
 	}
 
@@ -36,11 +43,25 @@ public class BeatBox { // manages assets, instantiated in onCreate of BeatBoxFra
 		}
 
 		for (String fileName : soundNames){
-			String assetPath = SOUNDS_FOLDER + "/" + fileName;
-			Sound sound = new Sound(assetPath);
-			mSounds.add(sound);
+
+			try {
+				String assetPath = SOUNDS_FOLDER + "/" + fileName;
+				Sound sound = new Sound(assetPath);
+				load(sound); // load into SoundPool
+				mSounds.add(sound); // add to BeatBox sound store
+			} catch (IOException ioe){
+				Log.e(TAG, "Could not load sound " + fileName, ioe);
+			}
+
+
 
 		}
+	}
+
+	private void load(Sound sound) throws IOException {
+		AssetFileDescriptor afd = mAssets.openFd(sound.getAssetPath()); // opens Sound's file path
+		int soundId = mSoundPool.load(afd, 1); // loads the file path into the SoundPool, returns ID
+		sound.setSoundId(soundId);
 	}
 
 	public List<Sound> getSounds() {
