@@ -30,6 +30,7 @@ public class BeatBoxFragment extends android.support.v4.app.Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 
 		mBeatBox = new BeatBox(getActivity());
 	}
